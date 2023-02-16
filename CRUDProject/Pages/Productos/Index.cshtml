@@ -1,0 +1,68 @@
+﻿@page
+@model CRUDProject.Pages.Productos.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Productos</h1>
+
+<p>
+    <a asp-page="Create">Crear Nuevo</a>
+</p>
+<form>
+    <p>
+        Filtro:
+        <select asp-for="filter">
+            <option value="All">Todo</option>
+            <option value="Id">Id</option>
+            <option value="Name">Nombre</option>
+            <option value="Price">Precio</option>
+            <option value="Description">Descripción</option>
+        </select>
+        <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Buscar" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto[0].Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Producto) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Ver</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Borrar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,44 @@
+﻿@page
+@model CRUDProject.Pages.Productos.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear</h1>
+
+<h4>Producto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Producto.Name" class="control-label"></label>
+                <input asp-for="Producto.Name" class="form-control" />
+                <span asp-validation-for="Producto.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.Price" class="control-label"></label>
+                <input asp-for="Producto.Price" class="form-control" />
+                <span asp-validation-for="Producto.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.Description" class="control-label"></label>
+                <input asp-for="Producto.Description" class="form-control" />
+                <span asp-validation-for="Producto.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Volver</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

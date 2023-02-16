@@ -1,0 +1,93 @@
+﻿@page
+@model CRUDProject.Pages.Ordenes.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Ordenes</h1>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Crear Nuevo</button>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Crear Nuevo</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+            <div class="modal-body">
+                <p>
+                <a asp-page="Create">Crear Nuevo</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<form>
+    <p>
+        Filtro:
+        <select asp-for="filter">
+            <option value="All">Todo</option>
+            <option value="Id">Id</option>
+            <option value="Client">Cliente</option>
+            <option value="Price">Precio</option>
+            <option value="Description">Descripción</option>
+            <option value="Date">Fecha</option>
+        </select>
+        <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Buscar" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Orden[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orden[0].Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orden[0].TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orden[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orden[0].OrderDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Orden) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Ver</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Borrar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
