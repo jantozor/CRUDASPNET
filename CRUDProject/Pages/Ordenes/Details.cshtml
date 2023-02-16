@@ -37,7 +37,7 @@
         </dd>
     </dl>
     <hr />
-    <button type="button" data-toggle="modal" data-target="#ModalDialog">Crear Nuevo</button>
+    <button type="button" data-toggle="modal" data-target="#ModalDialog">Añadir Producto a la orden</button>
     <hr/>
     @if (Model.Orden != null && Model.Orden.OrdenItems.Count > 0)
     {
@@ -45,7 +45,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(Model => Model.Orden.OrdenItems.ToList()[0].OrdenId)
+                    @Html.DisplayNameFor(Model => Model.Orden.OrdenItems.ToList()[0].Id)
                 </th>
                 <th>
                     @Html.DisplayNameFor(Model => Model.Orden.OrdenItems.ToList()[0].Producto.Name)
@@ -92,7 +92,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalDialogTitle">Modal title</h5>
+                    <h5 class="modal-title" id="ModalDialogTitle">Añadir Producto</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

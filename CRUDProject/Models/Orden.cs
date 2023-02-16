@@ -35,6 +35,7 @@ namespace CRUDProject.Models
         [ForeignKey("Cliente")]
         [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha")]
         public DateTime OrderDate { get; set; }

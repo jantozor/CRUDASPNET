@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRUDProject.Data.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,7 +45,7 @@ namespace CRUDProject.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClienteId = table.Column<int>(nullable: false),
                     OrderDate = table.Column<DateTime>(nullable: false),
-                    TotalPrice = table.Column<double>(nullable: true),
+                    TotalPrice = table.Column<double>(nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

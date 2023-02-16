@@ -57,7 +57,9 @@ namespace CRUDProject.Pages.Ordenes
             }
 
             items = await _context.OrdenItem
-                .Include(o => o.Producto).ToListAsync();
+                .Include(o => o.Producto).Where(s => s.OrdenId == id).ToListAsync();
+
+            Orden.TotalPrice = items.Sum(s => s.Quantity * s.Producto.Price);
 
             OrderItem = new OrdenItem();
             OrderItem.OrdenId = Orden.Id;
@@ -71,10 +73,16 @@ namespace CRUDProject.Pages.Ordenes
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             var it = await _context.OrdenItem.FindAsync(id);
+            var ord = await _context.Orden.FindAsync(it.OrdenId);
 
             if (it != null)
             {
                 _context.OrdenItem.Remove(it);
+                await _context.SaveChangesAsync();
+                var its = await _context.OrdenItem
+                .Include(o => o.Producto).Where(s => s.OrdenId == it.OrdenId).ToListAsync();
+                ord.TotalPrice = its.Sum(s => s.Quantity * s.Producto.Price);
+                _context.Orden.Update(ord);
                 await _context.SaveChangesAsync();
             }
 
@@ -94,6 +102,12 @@ namespace CRUDProject.Pages.Ordenes
             //Orden.OrdenItems.Add(OrderItem);
             await _context.SaveChangesAsync();
 
+            var its = await _context.OrdenItem
+                .Include(o => o.Producto).Where(s => s.OrdenId == OrderItem.OrdenId).ToListAsync();
+            var ord = await _context.Orden.FindAsync(OrderItem.OrdenId);
+            ord.TotalPrice = its.Sum(s => s.Quantity * s.Producto.Price);
+            _context.Orden.Update(ord);
+            await _context.SaveChangesAsync();
             return await OnGetAsync(OrderItem.OrdenId);
         }
     }

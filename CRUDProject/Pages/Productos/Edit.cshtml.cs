@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using CRUDProject.Data;
 using CRUDProject.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
 
 namespace CRUDProject.Pages.Productos
 {
@@ -54,6 +55,15 @@ namespace CRUDProject.Pages.Productos
 
             try
             {
+                var orders = await _context.Orden.ToListAsync();
+                foreach (var order in orders)
+                {
+                    var its = await _context.OrdenItem
+                    .Include(o => o.Producto).Where(s => s.OrdenId == order.Id).ToListAsync();
+                    order.TotalPrice = its.Sum(s => s.Quantity * s.Producto.Price);
+                    _context.Orden.Update(order);
+                }                
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

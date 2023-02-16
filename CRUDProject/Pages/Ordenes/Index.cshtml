@@ -11,7 +11,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalDialogTitle">Modal title</h5>
+                <h5 class="modal-title" id="ModalDialogTitle">Crear Nuevo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -20,8 +20,6 @@
                 @*<p>
                 <a asp-page="Create">Crear Nuevo</a>
                 </p>*@
-                <h1>Crear Nuevo</h1>
-
                 <h4>Orden</h4>
                 <hr />
                 <div class="row">
@@ -34,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="OrdenBP.OrderDate" class="control-label"></label>
-                                <input asp-for="OrdenBP.OrderDate" class="form-control" />
+                                <input asp-for="OrdenBP.OrderDate" class="form-control" required />
                                 <span asp-validation-for="OrdenBP.OrderDate" class="text-danger"></span>
                             </div>
                             <div class="form-group">
