@@ -7,28 +7,62 @@
 
 <h1>Ordenes</h1>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Crear Nuevo</button>
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="ModalDialog" tabindex="-1" role="dialog" aria-labelledby="ModalDialogTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Crear Nuevo</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-            <div class="modal-body">
-                <p>
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalDialogTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">                
+                @*<p>
                 <a asp-page="Create">Crear Nuevo</a>
-                </p>
+                </p>*@
+                <h1>Crear Nuevo</h1>
+
+                <h4>Orden</h4>
+                <hr />
+                <div class="row">
+                    <div class="col">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="OrdenBP.ClienteId" class="control-label"></label>
+                                <select asp-for="OrdenBP.ClienteId" class="form-control" asp-items="ViewBag.ClienteId"></select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OrdenBP.OrderDate" class="control-label"></label>
+                                <input asp-for="OrdenBP.OrderDate" class="form-control" />
+                                <span asp-validation-for="OrdenBP.OrderDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OrdenBP.TotalPrice" class="control-label"></label>
+                                <input asp-for="OrdenBP.TotalPrice" class="form-control" readonly value="0" />
+                                <span asp-validation-for="OrdenBP.TotalPrice" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OrdenBP.Description" class="control-label"></label>
+                                <input asp-for="OrdenBP.Description" class="form-control" />
+                                <span asp-validation-for="OrdenBP.Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" asp-page-handler="test1" value="Crear" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <a asp-page="Index">Volver</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<br>
 <form>
     <p>
+        <button type="button" data-toggle="modal" data-target="#ModalDialog">Crear Nuevo</button>
         Filtro:
         <select asp-for="filter">
             <option value="All">Todo</option>
@@ -91,3 +125,4 @@
 }
     </tbody>
 </table>
+

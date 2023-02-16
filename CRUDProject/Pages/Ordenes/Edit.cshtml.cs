@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRUDProject.Data;
 using CRUDProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRUDProject.Pages.Ordenes
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly CRUDProject.Data.ApplicationDbContext _context;
@@ -37,7 +39,7 @@ namespace CRUDProject.Pages.Ordenes
             {
                 return NotFound();
             }
-           ViewData["ClienteId"] = new SelectList(_context.Cliente, "Id", "Address");
+           ViewData["ClienteId"] = new SelectList(_context.Cliente, "Id", "Name");
             return Page();
         }
 

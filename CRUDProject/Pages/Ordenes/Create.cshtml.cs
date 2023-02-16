@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CRUDProject.Data;
 using CRUDProject.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRUDProject.Pages.Ordenes
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly CRUDProject.Data.ApplicationDbContext _context;
@@ -24,6 +26,9 @@ namespace CRUDProject.Pages.Ordenes
         {
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "Id", "Name");
             ViewData["ProductId"] = new SelectList(_context.Producto, "Id", "Name");
+
+            //Orden = new Orden();
+            OrderItem = new OrdenItem();
             return Page();
         }
 
@@ -34,17 +39,28 @@ namespace CRUDProject.Pages.Ordenes
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPosttest2()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return OnGet();
             }
+
+            if(Orden.Cliente== null)
+            {
+                var Producto = await _context.Producto.FirstOrDefaultAsync(m => m.Id == OrderItem.ProductoId);
+                OrderItem.Producto = Producto;
+
+                //Orden.OrdenItems.Add(item);
+                return OnGet();
+            }
+
 
             double total = 0;
 
             foreach (var item in Orden.OrdenItems)
             {
+                item.OrdenId = Orden.Id;
                 total += item.Quantity * item.Producto.Price;
             }
 
@@ -54,12 +70,6 @@ namespace CRUDProject.Pages.Ordenes
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
-        }
-
-        public async Task<IActionResult> OnPosttest1()
-        {
-            //…
-            return RedirectToPage();
         }
     }
 }

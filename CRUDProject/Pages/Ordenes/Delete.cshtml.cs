@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CRUDProject.Data;
 using CRUDProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRUDProject.Pages.Ordenes
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly CRUDProject.Data.ApplicationDbContext _context;

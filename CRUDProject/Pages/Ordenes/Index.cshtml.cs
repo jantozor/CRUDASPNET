@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CRUDProject.Data;
 using CRUDProject.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRUDProject.Pages.Ordenes
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly CRUDProject.Data.ApplicationDbContext _context;
@@ -24,10 +27,41 @@ namespace CRUDProject.Pages.Ordenes
         public string? SearchString { get; set; }
         [BindProperty(SupportsGet = true)]
         public string? filter { get; set; }
+
+        [BindProperty]
+        public Orden OrdenBP { get; set; }
+        [BindProperty]
+        public OrdenItem OrderItem { get; set; }
+
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            OrdenBP.TotalPrice = 0;
+            _context.Orden.Add(OrdenBP);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }
+
         public async Task OnGetAsync()
         {
-            var ordenes = from m in _context.Orden
-                            select m;
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "Id", "Name");
+            ViewData["ProductId"] = new SelectList(_context.Producto, "Id", "Name");
+
+            Orden = await GetOrden()
+                .Include(o => o.Cliente).ToListAsync();
+        }
+
+        private IQueryable<Orden> GetOrden()
+        {
+            IQueryable<Orden> ordenes = from m in _context.Orden
+                          select m;
+            
             if (!string.IsNullOrEmpty(SearchString))
             {
                 switch (filter)
@@ -53,8 +87,8 @@ namespace CRUDProject.Pages.Ordenes
 
                 }
             }
-            Orden = await ordenes
-                .Include(o => o.Cliente).ToListAsync();
+
+            return ordenes;
         }
     }
 }
